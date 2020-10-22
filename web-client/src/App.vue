@@ -1,15 +1,6 @@
 <template>
   <v-app style="background-color: inherit">
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <h2 class="text-4xl">Quizz App</h2>
-      </div>
-    </v-app-bar>
-
+    <the-header applicationName="Quiz Game"></the-header>
     <v-main>
       <Home/>
     </v-main>
@@ -18,12 +9,14 @@
 
 <script>
 import Home from './views/Home.vue';
+import TheHeader from './components/TheHeader.vue';
 
 export default {
   name: 'App',
 
   components: {
     Home,
+    TheHeader,
   },
 
   data: () => ({
