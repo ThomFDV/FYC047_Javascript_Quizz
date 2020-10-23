@@ -1,7 +1,7 @@
 <template>
   <v-stepper
     v-model="displayedStep"
-    class="col-8 mx-auto mt-6 bg-info bg-opacity-75"
+    class="col-11 col-sm-10 col-md-8 mx-auto mt-6 bg-info bg-opacity-75"
     elevation="5"
   >
     <v-stepper-header>
