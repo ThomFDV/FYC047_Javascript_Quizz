@@ -81,6 +81,7 @@ export default {
       this.$emit('previous-step', 1);
     },
     joinGame() {
+      this.$router.push('game');
       return '';
     },
     createGame() {

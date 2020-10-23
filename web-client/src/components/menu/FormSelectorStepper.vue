@@ -20,18 +20,26 @@
       </v-btn>
     </div>
     <div class="flex justify-center mt-2 mb-4">
-      <v-btn color="primary">
+      <v-btn color="primary" @click="isRulesHidden = !isRulesHidden">
         See the Rules
       </v-btn>
     </div>
+    <rules-carousel v-show="isRulesHidden"></rules-carousel>
   </div>
 </template>
 
 <script>
+import RulesCarousel from './RulesCarousel.vue';
+
 export default {
   name: 'FormSelectorStepper',
+  components: {
+    RulesCarousel,
+  },
   data() {
-    return {};
+    return {
+      isRulesHidden: false,
+    };
   },
   methods: {
     nextStep(isCreating) {
