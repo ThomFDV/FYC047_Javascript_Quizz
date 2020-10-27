@@ -1,7 +1,7 @@
 <template>
   <section class="col-12 col-sm-4 px-3">
     <v-card color="h-full bg-info flex flex-column p-2">
-      <div class="border border-primary"></div>
+      <div class="border border-primary h-full"></div>
       <v-form class="flex my-3 ml-0 mr-2">
         <v-text-field class="ml-0 mr-2" color="primary" outlined hide-details>
         </v-text-field>

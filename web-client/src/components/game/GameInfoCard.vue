@@ -1,10 +1,11 @@
 <template>
   <section class="col-11 col-sm-10 col-md-8">
     <v-card
+      class="h-full"
       color="secondary"
       dark
     >
-      <v-card-title class="flex-column">
+      <v-card-title class="flex-column mb-sm-4 md-md-8">
         <h2 class="text-3xl mx-auto">Players in the game</h2>
         <v-progress-linear
           indeterminate
