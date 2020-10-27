@@ -20,12 +20,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import MainStepper from '../components/MainStepper.vue';
 import FormSelectorStepper from '../components/menu/FormSelectorStepper.vue';
 import GameFormsStepper from '../components/menu/GameFormsStepper.vue';
 
-export default {
+export default Vue.extend({
   name: 'Home',
   components: {
     MainStepper,
@@ -38,9 +39,9 @@ export default {
     };
   },
   methods: {
-    toggleForm(creating) {
+    toggleForm(creating: boolean) {
       this.isCreating = creating;
     },
   },
-};
+});
 </script>

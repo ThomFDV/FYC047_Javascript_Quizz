@@ -62,8 +62,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'GameFormsStepper',
   props: {
     createForm: Boolean,
@@ -88,5 +90,5 @@ export default {
       return '';
     },
   },
-};
+});
 </script>

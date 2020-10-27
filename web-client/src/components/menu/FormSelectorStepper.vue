@@ -28,10 +28,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import RulesCarousel from './RulesCarousel.vue';
 
-export default {
+export default Vue.extend({
   name: 'FormSelectorStepper',
   components: {
     RulesCarousel,
@@ -42,9 +43,9 @@ export default {
     };
   },
   methods: {
-    nextStep(isCreating) {
+    nextStep(isCreating: boolean) {
       this.$emit('next-step', isCreating);
     },
   },
-};
+});
 </script>

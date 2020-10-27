@@ -8,11 +8,12 @@
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import TheHeader from './components/TheHeader.vue';
 import AnimatedBackground from './components/AnimatedBackground.vue';
 
-export default {
+export default Vue.extend({
   name: 'App',
 
   components: {
@@ -23,34 +24,34 @@ export default {
   data: () => ({
     //
   }),
-};
+});
 </script>
 
 <style>
-@import "tailwindcss/base";
+  @import "tailwindcss/base";
 
-@import "tailwindcss/components";
+  @import "tailwindcss/components";
 
-@import "tailwindcss/utilities";
+  @import "tailwindcss/utilities";
 
-body {
-  background: #FBE8A6;
-}
-/* Hide scrollbar for Chrome, Safari and Opera */
-body::-webkit-scrollbar {
-  display: none;
-}
+  body {
+    background: #FBE8A6;
+  }
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  body::-webkit-scrollbar {
+    display: none;
+  }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-body {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
+  /* Hide scrollbar for IE, Edge and Firefox */
+  body {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
 
-#app {
-  background: #FBE8A6;
-  width: 100%;
-  height: 100vh;
-  padding-top: 60px;
-}
+  #app {
+    background: #FBE8A6;
+    width: 100%;
+    height: 100vh;
+    padding-top: 60px;
+  }
 </style>

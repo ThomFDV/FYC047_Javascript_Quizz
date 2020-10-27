@@ -39,8 +39,10 @@
   </v-stepper>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'MainStepper',
   data() {
     return {
@@ -49,14 +51,14 @@ export default {
     };
   },
   methods: {
-    nextStep(isCreating) {
+    nextStep(isCreating: boolean) {
       this.displayedStep = 2;
       this.isCreating = isCreating;
       this.$emit('is-creating', isCreating);
     },
-    updateStep(num) {
+    updateStep(num: number) {
       this.displayedStep = num;
     },
   },
-};
+});
 </script>
