@@ -4,7 +4,7 @@
       Playing Time! Answer the best you can!
     </h1>
     <div class="flex flex-column flex-sm-row justify-space-around game-height">
-      <game-questions>
+      <game-questions :questions-nbr="totalQuestionsNbr">
         <game-answers></game-answers>
       </game-questions>
     </div>
@@ -21,6 +21,11 @@ export default Vue.extend({
   components: {
     GameQuestions,
     GameAnswers,
+  },
+  data() {
+    return {
+      totalQuestionsNbr: 3,
+    };
   },
 });
 </script>
