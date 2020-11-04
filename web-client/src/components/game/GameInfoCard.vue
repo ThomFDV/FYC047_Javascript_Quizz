@@ -27,6 +27,9 @@
       <div class="text-center my-4">
         <h3 class="text-2xl">Quiz Theme: Random</h3>
         <h3 class="text-2xl">Game ID: 1337-9834-3445</h3>
+        <v-btn color="primary" class="mx-auto my-4" raised elevation="4" to="/game/1337-9834-3445">
+          Start
+        </v-btn>
       </div>
     </v-card>
   </section>
