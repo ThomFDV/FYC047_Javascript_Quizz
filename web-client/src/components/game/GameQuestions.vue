@@ -16,9 +16,18 @@
         </v-stepper-step>
       </v-stepper-header>
       <v-stepper-items>
-        <v-stepper-content v-for="question in questionsNbr" :key="question" :step="question">
+        <v-stepper-content
+          v-for="(question, index) in questions"
+          :key="index"
+          :step="index + 1"
+        >
           <div class="flex flex-column align-center mb-8">
-            <h2 class="text-3xl mx-auto my-4 text-info">{{ questionTitle }}</h2>
+            <h2
+              class="text-3xl mx-auto my-4 text-info"
+              v-if="question"
+            >
+              {{ question }}
+            </h2>
             <v-progress-linear
               color="info"
               rounded
@@ -29,7 +38,7 @@
               class="mt-2 w-1/2"
             ></v-progress-linear>
           </div>
-          <slot></slot>
+          <slot :name="`question-${index + 1}`"></slot>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
@@ -43,12 +52,16 @@ export default Vue.extend({
   name: 'GameQuestions',
   props: {
     questionsNbr: Number,
+    quizQuestions: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
       displayedStep: 1,
-      questionTitle: 'Quel personne ne fait pas partie du groupe FYC ?',
       progressBarValue: 0,
+      questions: [{}],
     };
   },
   watch: {
@@ -59,6 +72,9 @@ export default Vue.extend({
       }
       this.displayedStep += 1;
       this.progressBarValue = 0;
+    },
+    quizQuestions(newVal) {
+      this.questions = newVal;
     },
   },
   mounted() {

@@ -4,8 +4,18 @@
       Playing Time! Answer the best you can!
     </h1>
     <div class="flex flex-column flex-sm-row justify-space-around game-height">
-      <game-questions :questions-nbr="totalQuestionsNbr">
-        <game-answers></game-answers>
+      <game-questions :questions-nbr="totalQuestionsNbr" :quiz-questions="quizQuestions">
+        <template
+          v-for="question in totalQuestionsNbr"
+          v-slot:[`question-${question}`]
+        >
+          <game-answers
+            :key="question"
+            :questions-answers="quizAnswers[question - 1]"
+            :question-index="question - 1"
+            @send-answer="updateAnswers"
+          ></game-answers>
+        </template>
       </game-questions>
     </div>
   </section>
@@ -13,6 +23,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import axios from 'axios';
 import GameQuestions from '../components/game/GameQuestions.vue';
 import GameAnswers from '../components/game/GameAnswers.vue';
 
@@ -24,8 +35,42 @@ export default Vue.extend({
   },
   data() {
     return {
-      totalQuestionsNbr: 3,
+      totalQuestionsNbr: 1,
+      quizQuestions: [''],
+      quizAnswers: [['']],
+      selectedAnswers: [{}],
     };
+  },
+  methods: {
+    getQuiz() {
+      return axios.get('https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple');
+    },
+    updateAnswers(answer: { question: number; answer: number }) {
+      if (this.selectedAnswers[answer.question]) {
+        this.selectedAnswers[answer.question] = answer;
+      } else {
+        this.selectedAnswers.push(answer);
+      }
+    },
+  },
+  async mounted() {
+    const quizData = await this.getQuiz();
+    const questions = [];
+    const allAnswers = [];
+    // eslint-disable-next-line no-restricted-syntax
+    for (const questionData of quizData.data.results) {
+      const answers = [];
+      questions.push(questionData.question);
+      answers.push(questionData.correct_answer);
+      // eslint-disable-next-line no-restricted-syntax
+      for (const answer of questionData.incorrect_answers) {
+        answers.push(answer);
+      }
+      allAnswers.push(answers);
+    }
+    this.totalQuestionsNbr = questions.length;
+    this.quizQuestions = questions;
+    this.quizAnswers = allAnswers;
   },
 });
 </script>

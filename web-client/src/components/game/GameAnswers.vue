@@ -1,16 +1,16 @@
 <template>
   <section>
-    <ul class="flex flex-wrap">
-      <li
-        v-for="answer in answers"
-        :key="answer.id"
+    <v-btn-toggle class="flex flex-wrap bg-secondary" v-model="selectedAnswer" group>
+      <div
+        v-for="answer in questionsAnswers"
+        :key="answer"
         class="w-1/2 flex justify-center my-4"
       >
-        <v-btn outlined color="accent">
-          {{ answer.text }}
+        <v-btn color="accent" class="text-secondary" outlined>
+          {{ answer }}
         </v-btn>
-      </li>
-    </ul>
+      </div>
+    </v-btn-toggle>
   </section>
 </template>
 
@@ -19,31 +19,23 @@ import Vue from 'vue';
 
 export default Vue.extend({
   name: 'GameAnswers',
+  props: {
+    questionsAnswers: Array,
+    questionIndex: Number,
+  },
   data() {
     return {
-      answers: [
-        {
-          id: 0,
-          text: 'Thomas FERREIRA',
-          isRight: false,
-        },
-        {
-          id: 1,
-          text: 'Corentin MARTINEZ',
-          isRight: false,
-        },
-        {
-          id: 2,
-          text: 'Elise ALLIROL',
-          isRight: true,
-        },
-        {
-          id: 3,
-          text: 'Romain BOILLEAU',
-          isRight: false,
-        },
-      ],
+      selectedAnswer: null,
     };
+  },
+  watch: {
+    selectedAnswer(val) {
+      const obj = {
+        question: this.questionIndex,
+        answer: val,
+      };
+      this.$emit('send-answer', obj);
+    },
   },
 });
 </script>
