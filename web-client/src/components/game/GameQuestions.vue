@@ -70,6 +70,10 @@ export default Vue.extend({
         this.progress();
         return;
       }
+      if (this.displayedStep > 9) {
+        this.$router.push(`/game/${this.$route.params.gameId}/results`);
+        return;
+      }
       this.displayedStep += 1;
       this.progressBarValue = 0;
     },
@@ -85,7 +89,7 @@ export default Vue.extend({
   methods: {
     progress() {
       setTimeout(() => {
-        this.progressBarValue += 5;
+        this.progressBarValue += 25;
       }, 1000);
     },
   },
