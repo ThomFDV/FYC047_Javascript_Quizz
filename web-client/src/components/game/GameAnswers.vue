@@ -37,5 +37,18 @@ export default Vue.extend({
       this.$emit('send-answer', obj);
     },
   },
+  mounted() {
+    this.shuffleAnswers();
+  },
+  methods: {
+    shuffleAnswers() {
+      for (let i = this.questionsAnswers.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * i);
+        const temp = this.questionsAnswers[i];
+        this.questionsAnswers[i] = this.questionsAnswers[j];
+        this.questionsAnswers[j] = temp;
+      }
+    },
+  },
 });
 </script>
