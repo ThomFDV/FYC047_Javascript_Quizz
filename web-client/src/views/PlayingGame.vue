@@ -63,25 +63,37 @@ export default Vue.extend({
       // WARNING: selectedAnswers contains a void array at the first position
       this.$emit('game-finished', this.quizAnswers, this.selectedAnswers);
     },
+    sortQuizData(quizData: { data: { results: any } }) {
+      const questions = [];
+      const allAnswers = [];
+      const emptyAnswers: { question: number; answer: string }[] = [];
+      let index = 0;
+      // eslint-disable-next-line no-restricted-syntax
+      for (const questionData of quizData.data.results) {
+        const answers = [];
+        questions.push(questionData.question);
+        answers.push(questionData.correct_answer);
+        // eslint-disable-next-line no-restricted-syntax
+        for (const answer of questionData.incorrect_answers) {
+          answers.push(answer);
+        }
+        allAnswers.push(answers);
+        const emptyAnswer = {
+          question: index,
+          answer: '',
+        };
+        emptyAnswers.push(emptyAnswer);
+        index += 1;
+      }
+      this.totalQuestionsNbr = questions.length;
+      this.quizQuestions = questions;
+      this.quizAnswers = allAnswers;
+      this.selectedAnswers = emptyAnswers;
+    },
   },
   async mounted() {
     const quizData = await this.getQuiz();
-    const questions = [];
-    const allAnswers = [];
-    // eslint-disable-next-line no-restricted-syntax
-    for (const questionData of quizData.data.results) {
-      const answers = [];
-      questions.push(questionData.question);
-      answers.push(questionData.correct_answer);
-      // eslint-disable-next-line no-restricted-syntax
-      for (const answer of questionData.incorrect_answers) {
-        answers.push(answer);
-      }
-      allAnswers.push(answers);
-    }
-    this.totalQuestionsNbr = questions.length;
-    this.quizQuestions = questions;
-    this.quizAnswers = allAnswers;
+    this.sortQuizData(quizData);
   },
 });
 </script>

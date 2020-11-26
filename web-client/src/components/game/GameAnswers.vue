@@ -26,10 +26,6 @@ export default Vue.extend({
   data() {
     return {
       selectedAnswer: null,
-      noAnswer: {
-        question: this.questionIndex,
-        answer: '',
-      },
       shuffledAnswers: [] as string[],
     };
   },
@@ -37,7 +33,7 @@ export default Vue.extend({
     selectedAnswer(val) {
       const obj = {
         question: this.questionIndex,
-        answer: val,
+        answer: this.shuffledAnswers[val],
       };
       this.$emit('send-answer', obj);
     },
