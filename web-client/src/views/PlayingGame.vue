@@ -4,7 +4,11 @@
       Playing Time! Answer the best you can!
     </h1>
     <div class="flex flex-column flex-sm-row justify-space-around game-height">
-      <game-questions :questions-nbr="totalQuestionsNbr" :quiz-questions="quizQuestions">
+      <game-questions
+        :questions-nbr="totalQuestionsNbr"
+        :quiz-questions="quizQuestions"
+        @quiz-end="gameEnd"
+      >
         <template
           v-for="question in totalQuestionsNbr"
           v-slot:[`question-${question}`]
@@ -51,6 +55,13 @@ export default Vue.extend({
       } else {
         this.selectedAnswers.push(answer);
       }
+    },
+    gameEnd() {
+      this.$router.push({
+        path: `/game/${this.$route.params.gameId}/results`,
+      });
+      // WARNING: selectedAnswers contains a void array at the first position
+      this.$emit('game-finished', this.quizAnswers, this.selectedAnswers);
     },
   },
   async mounted() {

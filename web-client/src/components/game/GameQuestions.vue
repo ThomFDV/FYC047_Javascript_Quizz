@@ -71,7 +71,7 @@ export default Vue.extend({
         return;
       }
       if (this.displayedStep > 9) {
-        this.$router.push(`/game/${this.$route.params.gameId}/results`);
+        this.$emit('quiz-end');
         return;
       }
       this.displayedStep += 1;
@@ -89,7 +89,7 @@ export default Vue.extend({
   methods: {
     progress() {
       setTimeout(() => {
-        this.progressBarValue += 25;
+        this.progressBarValue += 50;
       }, 1000);
     },
   },

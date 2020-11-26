@@ -15,8 +15,29 @@ import GameResultsCard from '../components/game/GameResultsCard.vue';
 
 export default Vue.extend({
   name: 'GameResults',
+  props: {
+    allAnswers: Array,
+    playersAnswers: Array,
+  },
   components: {
     GameResultsCard,
+  },
+  mounted() {
+    console.log(this.allAnswers);
+    console.log(this.playersAnswers);
+    const playersScore: Array<object> = [];
+    for (let i = 0; i < this.playersAnswers.length; i += 1) {
+      let score = 0;
+      for (let j = 0; j < this.allAnswers.length; j += 1) {
+        score += 1;
+      }
+      const player = {
+        player: i,
+        score,
+      };
+      playersScore.push(player);
+    }
+    console.log(playersScore);
   },
 });
 </script>

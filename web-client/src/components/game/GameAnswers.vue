@@ -2,7 +2,7 @@
   <section>
     <v-btn-toggle class="flex flex-wrap bg-secondary" v-model="selectedAnswer" group>
       <div
-        v-for="answer in questionsAnswers"
+        v-for="answer in shuffledAnswers"
         :key="answer"
         class="w-1/2 flex justify-center my-4"
       >
@@ -26,6 +26,11 @@ export default Vue.extend({
   data() {
     return {
       selectedAnswer: null,
+      noAnswer: {
+        question: this.questionIndex,
+        answer: '',
+      },
+      shuffledAnswers: [] as string[],
     };
   },
   watch: {
@@ -36,18 +41,23 @@ export default Vue.extend({
       };
       this.$emit('send-answer', obj);
     },
+    questionsAnswers(val) {
+      this.shuffleAnswers(val);
+    },
   },
-  mounted() {
-    this.shuffleAnswers();
+  async mounted() {
+    await this.shuffleAnswers(this.questionsAnswers);
   },
   methods: {
-    shuffleAnswers() {
-      for (let i = this.questionsAnswers.length - 1; i > 0; i -= 1) {
+    shuffleAnswers(answers: any[]) {
+      const toShuffleAnswers: Array<any> = answers;
+      for (let i = toShuffleAnswers.length - 1; i > 0; i -= 1) {
         const j = Math.floor(Math.random() * i);
-        const temp = this.questionsAnswers[i];
-        this.questionsAnswers[i] = this.questionsAnswers[j];
-        this.questionsAnswers[j] = temp;
+        const temp: string = toShuffleAnswers[i];
+        toShuffleAnswers[i] = toShuffleAnswers[j];
+        toShuffleAnswers[j] = temp;
       }
+      this.shuffledAnswers = toShuffleAnswers;
     },
   },
 });

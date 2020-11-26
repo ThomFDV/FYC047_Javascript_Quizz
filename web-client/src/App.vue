@@ -3,7 +3,11 @@
     <the-header applicationName="Quiz Game"></the-header>
     <animated-background></animated-background>
     <v-main class="mt-3">
-      <router-view></router-view>
+      <router-view
+        @game-finished="getAnswers"
+        :all-answers="gameAnswers"
+        :players-answers="playerAnswers"
+      ></router-view>
     </v-main>
   </v-app>
 </template>
@@ -22,8 +26,15 @@ export default Vue.extend({
   },
 
   data: () => ({
-    //
+    gameAnswers: [] as Array<Array<string>>,
+    playerAnswers: [] as object[],
   }),
+  methods: {
+    getAnswers(gameAnswers: Array<Array<string>>, answers: any) {
+      this.gameAnswers = gameAnswers;
+      this.playerAnswers.push(answers);
+    },
+  },
 });
 </script>
 
