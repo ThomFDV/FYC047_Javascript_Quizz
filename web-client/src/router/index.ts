@@ -14,12 +14,12 @@ const routes: Array<RouteConfig> = [
     component: Home,
   },
   {
-    path: '/game',
+    path: '/game/:gameId',
     name: 'GameHome',
     component: GameHome,
   },
   {
-    path: '/game/:gameId',
+    path: '/game/:gameId/playing',
     name: 'PlayingGame',
     component: PlayingGame,
   },

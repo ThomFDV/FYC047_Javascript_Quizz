@@ -83,7 +83,7 @@ export default Vue.extend({
       this.$emit('previous-step', 1);
     },
     joinGame() {
-      this.$router.push('game');
+      this.$router.push(`game/${this.gameId}`);
       return '';
     },
     createGame() {
