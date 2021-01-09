@@ -70,7 +70,7 @@ export default Vue.extend({
         this.progress();
         return;
       }
-      if (this.displayedStep > 9) {
+      if (this.displayedStep > this.questionsNbr - 1) {
         this.$emit('quiz-end');
         return;
       }
@@ -89,7 +89,7 @@ export default Vue.extend({
   methods: {
     progress() {
       setTimeout(() => {
-        this.progressBarValue += 10;
+        this.progressBarValue += 1;
       }, 1000);
     },
   },
