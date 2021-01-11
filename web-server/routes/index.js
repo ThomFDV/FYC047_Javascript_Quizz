@@ -9,6 +9,7 @@ class RouterBuilder {
         app.use('/answer', require('./answer.router'));
         app.use('/testquestions', require('./testQuestions.router'));
         app.use('/test', require('./test.router'));
+        app.use('/room', require('./room.router'));
     }
 }
 

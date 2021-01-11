@@ -10,10 +10,25 @@ router.use(bodyParser.json());
 
 router.post('/', async (req, res) => {
     try {
-        const p = await UserController.addUser(req.body.nom, req.body.prenom, req.body.login, req.body.mot_de_pass, req.body.mail);
+        const p = await UserController.addUser(
+            req.body.firstname,
+            req.body.lastname,
+            req.body.username,
+            req.body.password,
+            req.body.email
+        );
         return res.json(p).status(201).end();
     } catch(err) {
-        res.status(400).end();
+        res.status(400).json({
+            err,
+            "data": [
+                req.body.firstname,
+                req.body.lastname,
+                req.body.username,
+                req.body.password,
+                req.body.email
+            ]
+        }).end();
     }
 });
 

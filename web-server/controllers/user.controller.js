@@ -6,13 +6,13 @@ const User = models.user;
 
 class UserController {
 
-    async addUser(firstname, lasttname, login, mot_de_pass, mail) {
+    async addUser(firstname, lastname, username, password, email) {
         return User.create({
             firstname,
-            lasttname,
-            login,
-            mot_de_pass,
-            mail,
+            lastname,
+            username,
+            password,
+            email,
         });
     }
 

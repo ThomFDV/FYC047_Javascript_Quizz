@@ -8,5 +8,6 @@ module.exports = {
     AnswerController: require('./answer.controller'),
     TestController: require('./test.controller'),
     TestQuestionsController: require('./testQuestions.controller'),
+    RoomController: require('./room.controller'),
 };
 

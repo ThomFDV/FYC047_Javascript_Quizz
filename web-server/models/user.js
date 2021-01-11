@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(255),
 			allowNull: false
 		},
-		login: {
+		username: {
 			type: DataTypes.STRING(45),
 			allowNull: false
 		},
@@ -22,7 +22,7 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(20),
 			allowNull: false
 		},
-		mail: {
+		email: {
 			type: DataTypes.STRING(255),
 			allowNull: false
 		},
@@ -33,6 +33,9 @@ module.exports = function(sequelize, DataTypes) {
 	User.associate = function(models) {
 		User.hasMany(models.usertests, {
 			as: 'usertests',
+			foreignKey: 'User_id'
+		});
+		User.hasMany(models.room, {
 			foreignKey: 'User_id'
 		});
 	};

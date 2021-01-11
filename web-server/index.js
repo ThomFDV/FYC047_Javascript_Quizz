@@ -1,17 +1,26 @@
-'use strict';
 require('dotenv').config();
 const express = require('express');
 const models = require('./models');
 const RouteBuilder = require('./routes');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+// const pusher = require('./config/pusher');
 
 const app = express();
 
+const corsOptions = {
+    origin: 'http://localhost:8080',
+    optionsSuccessStatus: 200 // For legacy browser support
+}
+
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
+app.use(cors(corsOptions));
 
 
 RouteBuilder.build(app);
+
+// pusher.connect();
 
 const PORT = process.env.PORT || 3000;
 models.sequelize.authenticate().then(() => {
@@ -27,3 +36,11 @@ models.sequelize.authenticate()
   .catch((err) => {
     console.error(err);
   });
+
+// const server = require('http').Server(app)
+// const io = require('socket.io')(server);
+//
+// io.on('connection', socket => {
+//     console.log('connect');
+// });
+
