@@ -12,10 +12,6 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(200),
             allowNull: false
         },
-		dateCreation: {
-			type: DataTypes.DATEONLY,
-			allowNull: false
-		},
 		nbQuestion: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false
@@ -24,13 +20,15 @@ module.exports = function(sequelize, DataTypes) {
 		tableName: 'test'
 	});
     Test.associate = function(models) {
-        Test.hasMany(models.testquestions, {
-			as: 'testquestions',
-			foreignKey: 'Test_id'
+        Test.belongsToMany(models.question, {
+			through: 'question_test',
+			as: 'questions',
+			foreignKey: 'testId'
 		});
-        Test.hasMany(models.usertests, {
-			as: 'usertests',
-			foreignKey: 'Test_id'
+        Test.belongsToMany(models.user, {
+        	through: 'user_test',
+			as: 'users',
+			foreignKey: 'testId'
 		});
 	};
 	return Test;

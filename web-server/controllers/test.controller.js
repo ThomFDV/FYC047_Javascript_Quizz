@@ -6,10 +6,9 @@ const Test = models.test;
 
 class TestController {
 
-    async addTest(name, dateCreation, nbQuestion) {
+    async addTest(name, nbQuestion) {
         return Test.create({
             name,
-            dateCreation,
             nbQuestion
         });
     }

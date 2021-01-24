@@ -21,25 +21,14 @@ module.exports = function(sequelize, DataTypes) {
 	});
 
 	Question.associate = function(models) {
-		Question.hasMany(models.testquestions, {
-			as: 'testquestions',
-			foreignKey: 'Question_id'
+		Question.belongsToMany(models.test, {
+			through: 'question_test',
+			as: 'tests',
+			foreignKey: 'questionId'
 		});
-		Question.belongsTo(models.proposition, {
-			as: 'proposition1',
-			foreignKey: 'Proposition_id1'
-		});
-		Question.belongsTo(models.proposition, {
-			as: 'proposition2',
-			foreignKey: 'Proposition_id2'
-		});
-		Question.belongsTo(models.proposition, {
-			as: 'proposition3',
-			foreignKey: 'Proposition_id3'
-		});
-		Question.belongsTo(models.answer, {
+		Question.hasMany(models.answer, {
 			as: 'answer',
-			foreignKey: 'Answer_id'
+			foreignKey: 'answerId'
 		});
 	};
 

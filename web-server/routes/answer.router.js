@@ -10,7 +10,7 @@ router.use(bodyParser.json());
 
 router.post('/', async (req, res) => {
     try {
-        const p = await AnswerController.addAnswer(req.body.content);
+        const p = await AnswerController.addAnswer(req.body.content, req.body.isCorrect, req.body.questionId);
         return res.json(p).status(201).end();
     } catch(err) {
         res.status(400).end();

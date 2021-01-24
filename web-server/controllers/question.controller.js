@@ -2,20 +2,35 @@
 
 const models = require('../models');
 const sequelize = models.sequelize;
-const Question = models.questions;
+const Question = models.question;
+const Test = models.test
 
 class QuestionController {
 
-    async addQuestion(content, imagePath, Theme_id, Proposition_id1, Proposition_id2, Proposition_id3, Answer_id) {
-        return Question.create({
-            content,
-            imagePath,
-            Theme_id,
-            Proposition_id1,
-            Proposition_id2,
-            Proposition_id3,
-            Answer_id
-        });
+    async addQuestion(content, imagePath, testId) {
+        return Test.findByPk(testId)
+            .then((test) => {
+                if (!test) {
+                    console.log("Test not found!");
+                    return null;
+                }
+                return Question.create({
+                    content,
+                    imagePath
+                }).then((question) => {
+                    if (!question) {
+                        console.log("Question not found!");
+                        return null;
+                    }
+
+                    test.addQuestion(question);
+                    console.log(`>> added Question id=${question.id} to Test id=${test.id}`);
+                    return test;
+                });
+            })
+            .catch((err) => {
+                console.log(">> Error while adding Question to Test: ", err);
+            });
     }
 
     async getQuestion(id) {

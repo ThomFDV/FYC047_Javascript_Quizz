@@ -11,15 +11,19 @@ module.exports = function(sequelize, DataTypes) {
 		content: {
 			type: DataTypes.STRING(100),
 			allowNull: false
+		},
+		isCorrect: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false
 		}
 	}, {
 		tableName: 'answer'
 	});
 
     Answer.associate = function(models) {
-        Answer.hasMany(models.question, {
+        Answer.belongsTo(models.question, {
 			as: 'question',
-			foreignKey: 'Answer_id'
+			foreignKey: 'questionId'
 		});
 	};
 	return Answer;

@@ -31,12 +31,10 @@ module.exports = function(sequelize, DataTypes) {
 	});
 
 	User.associate = function(models) {
-		User.hasMany(models.usertests, {
-			as: 'usertests',
-			foreignKey: 'User_id'
-		});
-		User.hasMany(models.room, {
-			foreignKey: 'User_id'
+		User.belongsToMany(models.test, {
+			through: 'user_test',
+			as: 'tests',
+			foreignKey: 'userId'
 		});
 	};
 

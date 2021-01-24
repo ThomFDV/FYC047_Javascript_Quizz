@@ -6,9 +6,11 @@ const Answer = models.answer;
 
 class AnswerController {
 
-    async addAnswer(content) {
+    async addAnswer(content, isCorrect, questionId) {
         return Answer.create({
-            content
+            content,
+            isCorrect,
+            questionId
         });
     }
 
