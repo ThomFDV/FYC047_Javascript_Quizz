@@ -1,2 +1,4 @@
 .DS_Store
 web-server/.env
+.vscode-upload.json
+
