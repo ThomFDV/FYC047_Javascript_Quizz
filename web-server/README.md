@@ -10,6 +10,8 @@ Then, you should see at http://localhost:3001 the adminer interface which helps 
 
 After the database is up and running run `npm start` or `npm run dev` to start the server.
 
+Now you can use it on http://localhost:3000.
+
 ### Manage the DB
 
 With *adminer* you can manage the database by connecting to it.
