@@ -10,7 +10,7 @@ const passport = require('passport');
 const app = express();
 
 const corsOptions = {
-    origin: 'http://localhost:8080',
+    origin: 'http://localhost:8100',
     optionsSuccessStatus: 200 // For legacy browser support
 }
 
