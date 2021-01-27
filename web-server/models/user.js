@@ -1,4 +1,4 @@
-module.exports = function(sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
 	const User = sequelize.define('user', {
 		id: {
 			type: DataTypes.INTEGER(11),
@@ -26,14 +26,17 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(255),
 			allowNull: false
 		},
+		isPlaying: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false
+		}
 	}, {
 		tableName: 'user'
 	});
 
-	User.associate = function(models) {
-		User.belongsToMany(models.test, {
-			through: 'user_test',
-			as: 'tests',
+	User.associate = (models) => {
+		User.belongsToMany(models.room, {
+			through: models.user_room,
 			foreignKey: 'userId'
 		});
 	};

@@ -27,10 +27,9 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const room = await RoomController.addRoom(req.body.name, req.body.playerId);
-        return res.status(200).json(room).end();
+        const room = await RoomController.addRoom(req.body.name, req.body.userId, req.body.testId);
+        return res.status(201).json(room).end();
     } catch (e) {
-        console.log(`Error performing a POST on '/room/': ${e}`);
         res.status(409).json(e).end();
     }
 });

@@ -6,5 +6,6 @@ module.exports = {
     AnswerController: require('./answer.controller'),
     TestController: require('./test.controller'),
     RoomController: require('./room.controller'),
+    ThemeController: require('./theme.controller')
 };
 

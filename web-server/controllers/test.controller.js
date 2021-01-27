@@ -1,15 +1,14 @@
 'use strict';
 
-const models = require('../models');
-const sequelize = models.sequelize;
-const Test = models.test;
+const Test = require('../models').test;
 
 class TestController {
 
-    async addTest(name, nbQuestion) {
+    async addTest(name, nbQuestion, themeId) {
         return Test.create({
             name,
-            nbQuestion
+            nbQuestion,
+            themeId
         });
     }
 

@@ -1,6 +1,6 @@
 const { v4: uuid } = require('uuid');
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
     const Room = sequelize.define('room', {
         id: {
             type: DataTypes.UUID,
@@ -10,16 +10,21 @@ module.exports = function(sequelize, DataTypes) {
         name: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        owner: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
     }, {
         tableName: 'room'
     });
 
-    Room.associate = function (models) {
-        Room.belongsTo(models.user, {
-            as: 'player',
-            foreignKey: 'User_id'
+    Room.associate = (models) => {
+        Room.belongsToMany(models.user, {
+            through: models.user_room,
+            foreignKey: 'roomId'
         });
+        Room.belongsTo(models.test);
     };
 
     Room.beforeCreate(room => room.id = uuid());

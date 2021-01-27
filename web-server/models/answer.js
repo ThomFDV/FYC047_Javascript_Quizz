@@ -1,6 +1,6 @@
 /* jshint indent: 1 */
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
 	const Answer = sequelize.define('answer', {
 		id: {
 			type: DataTypes.INTEGER(11),
@@ -20,11 +20,8 @@ module.exports = function(sequelize, DataTypes) {
 		tableName: 'answer'
 	});
 
-    Answer.associate = function(models) {
-        Answer.belongsTo(models.question, {
-			as: 'question',
-			foreignKey: 'questionId'
-		});
+    Answer.associate = (models) => {
+        Answer.belongsTo(models.question);
 	};
 	return Answer;
 };

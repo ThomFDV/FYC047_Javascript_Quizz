@@ -10,10 +10,10 @@ router.use(bodyParser.json());
 
 router.post('/', async (req, res) => {
     try {
-        const p = await TestController.addTest(req.body.name, req.body.nbQuestion);
-        return res.json(p).status(201).end();
+        const p = await TestController.addTest(req.body.name, req.body.nbQuestion, req.body.themeId);
+        return res.status(201).json(p).end();
     } catch(err) {
-        res.status(400).end();
+        res.status(400).json({ err, body: req.body }).end();
     }
 });
 
@@ -21,10 +21,9 @@ router.post('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try{
         const p = await TestController.getTest(req.params.id);
-        return res.json(p).status(200).end();
-    } catch(err){
-        console.log(err);
-        res.status(409).end();
+        return res.status(200).json(p).end();
+    } catch(err) {
+        res.status(409).json({ err, body: req.body }).end();
     }
 });
 

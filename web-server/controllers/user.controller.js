@@ -1,18 +1,18 @@
 'use strict';
 
 const models = require('../models');
-const sequelize = models.sequelize;
 const User = models.user;
 
 class UserController {
 
-    async addUser(firstname, lastname, username, password, email) {
+    async addUser(firstname, lastname, username, password, email, isPlaying) {
         return User.create({
             firstname,
             lastname,
             username,
             password,
             email,
+            isPlaying
         });
     }
 

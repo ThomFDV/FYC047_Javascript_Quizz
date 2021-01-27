@@ -1,6 +1,4 @@
-/* jshint indent: 1 */
-
-module.exports = function(sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
 	const Test = sequelize.define('test', {
 		id: {
 			type: DataTypes.INTEGER(11),
@@ -19,15 +17,15 @@ module.exports = function(sequelize, DataTypes) {
 	}, {
 		tableName: 'test'
 	});
-    Test.associate = function(models) {
+    Test.associate = (models) => {
         Test.belongsToMany(models.question, {
 			through: 'question_test',
 			as: 'questions',
 			foreignKey: 'testId'
 		});
-        Test.belongsToMany(models.user, {
-        	through: 'user_test',
-			as: 'users',
+        Test.belongsTo(models.theme);
+        Test.hasMany(models.room, {
+        	as: 'room',
 			foreignKey: 'testId'
 		});
 	};

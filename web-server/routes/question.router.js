@@ -11,9 +11,9 @@ router.use(bodyParser.json());
 router.post('/', async (req, res) => {
     try {
         const p = await QuestionController.addQuestion(req.body.content, req.body.imagePath, req.body.testId);
-        return res.json(p).status(201).end();
+        return res.status(201).json(p).end();
     } catch(err) {
-        res.status(400).json({ err, val: req.body }).end();
+        res.status(400).json({ err, body: req.body }).end();
     }
 });
 

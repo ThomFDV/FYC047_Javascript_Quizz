@@ -1,7 +1,10 @@
 'use strict';
 
 const Room = require('../models').room;
+const User = require('../models').user;
+const UserRoom = require('../models').user_room;
 const pusher = require('../config/pusher');
+const Sequelize = require('../models').sequelize;
 
 const players = [];
 
@@ -19,12 +22,22 @@ class RoomController {
         return Room.findAll();
     };
 
-    async addRoom(roomName, playerId) {
-        console.log(`Room created by user: ${playerId}`);
-        return Room.create({
-            name: roomName,
-            User_id: playerId
+    async addRoom(name, userId, testId) {
+        const createdRoom = await Room.create({
+            name,
+            owner: userId,
+            testId
         });
+        if (!createdRoom) return;
+
+        const player = await User.findByPk(userId);
+        if (!player) return;
+
+        const updatePlayer = await User.update({ isPlaying: true }, { where: { id: player.id } });
+        if (!updatePlayer) return;
+
+        return UserRoom.create({ userId: player.id, roomId: createdRoom.id, score: 0 });
+
     };
 
     async connectPlayerToRoom(id, player) {

@@ -8,29 +8,20 @@ const Test = models.test
 class QuestionController {
 
     async addQuestion(content, imagePath, testId) {
-        return Test.findByPk(testId)
-            .then((test) => {
-                if (!test) {
-                    console.log("Test not found!");
-                    return null;
-                }
-                return Question.create({
-                    content,
-                    imagePath
-                }).then((question) => {
-                    if (!question) {
-                        console.log("Question not found!");
-                        return null;
-                    }
-
-                    test.addQuestion(question);
-                    console.log(`>> added Question id=${question.id} to Test id=${test.id}`);
-                    return test;
-                });
-            })
-            .catch((err) => {
-                console.log(">> Error while adding Question to Test: ", err);
-            });
+        const testFound = await Test.findByPk(testId);
+        if (!testFound) {
+            console.log("Test not found!");
+            return null;
+        }
+        const createdQuestion = await Question.create({
+            content,
+            imagePath
+        });
+        if (!createdQuestion) {
+            console.log("Question not found!");
+            return null;
+        }
+        return testFound.addQuestion(createdQuestion);
     }
 
     async getQuestion(id) {

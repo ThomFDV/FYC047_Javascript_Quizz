@@ -1,6 +1,6 @@
 /* jshint indent: 1 */
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
 	const Question = sequelize.define('question', {
 		id: {
 			type: DataTypes.INTEGER(11),
@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
 		tableName: 'question'
 	});
 
-	Question.associate = function(models) {
+	Question.associate = (models) => {
 		Question.belongsToMany(models.test, {
 			through: 'question_test',
 			as: 'tests',
@@ -28,7 +28,7 @@ module.exports = function(sequelize, DataTypes) {
 		});
 		Question.hasMany(models.answer, {
 			as: 'answer',
-			foreignKey: 'answerId'
+			foreignKey: 'questionId'
 		});
 	};
 

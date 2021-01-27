@@ -15,20 +15,12 @@ router.post('/', async (req, res) => {
             req.body.lastname,
             req.body.username,
             req.body.password,
-            req.body.email
+            req.body.email,
+            req.body.isPlaying
         );
-        return res.json(p).status(201).end();
+        return res.status(201).json(p).end();
     } catch(err) {
-        res.status(400).json({
-            err,
-            "data": [
-                req.body.firstname,
-                req.body.lastname,
-                req.body.username,
-                req.body.password,
-                req.body.email
-            ]
-        }).end();
+        res.status(400).json({ err, body: req.body }).end();
     }
 });
 
