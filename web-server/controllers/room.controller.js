@@ -1,8 +1,6 @@
 'use strict';
 
-const Room = require('../models').room;
-const User = require('../models').user;
-const UserRoom = require('../models').user_room;
+const models = require('../models');
 const pusher = require('../config/pusher');
 const Sequelize = require('../models').sequelize;
 
@@ -11,32 +9,52 @@ const players = [];
 class RoomController {
 
     async getRoom(id) {
-        return Room.findOne({
-            where: {
-                id
-            }
+        const roomData = await models.room.findByPk(id, {
+            include: [
+                {
+                    model: models.test,
+                    // include: [
+                    //     {
+                    //         model: models.question
+                    //     }
+                    // ]
+                },
+                {
+                    model: models.user
+                }
+            ]
         });
+        const questionData = await models.question_test.findAll({
+            where: { questions: roomData.testId },
+            include: [
+                {
+                    model: models.question
+                }
+            ]
+        });
+        return { roomData, questionData };
+        // return roomData;
     };
 
     async getRooms() {
-        return Room.findAll();
+        return models.room.findAll();
     };
 
     async addRoom(name, userId, testId) {
-        const createdRoom = await Room.create({
+        const createdRoom = await models.room.create({
             name,
             owner: userId,
             testId
         });
         if (!createdRoom) return;
 
-        const player = await User.findByPk(userId);
+        const player = await models.user.findByPk(userId);
         if (!player) return;
 
-        const updatePlayer = await User.update({ isPlaying: true }, { where: { id: player.id } });
+        const updatePlayer = await models.user.update({ isPlaying: true }, { where: { id: player.id } });
         if (!updatePlayer) return;
 
-        return UserRoom.create({ userId: player.id, roomId: createdRoom.id, score: 0 });
+        return models.user_room.create({ userId: player.id, roomId: createdRoom.id, score: 0 });
 
     };
 
