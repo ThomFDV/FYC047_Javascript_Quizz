@@ -13,28 +13,27 @@ class RoomController {
             include: [
                 {
                     model: models.test,
-                    // include: [
-                    //     {
-                    //         model: models.question
-                    //     }
-                    // ]
+                    include: [
+                        {
+                            model: models.question,
+                            as: 'questions',
+                            include: [
+                                {
+                                    model: models.answer,
+                                    as: 'answers'
+                                }
+                            ]
+                        },
+                        {
+                            model: models.theme
+                        }
+                    ]
                 },
                 {
                     model: models.user
                 }
             ]
         });
-
-        // console.log(`\n==============================\n${roomData.testId}\n========================\n`);
-        // const questionData = await models.question_test.findByPk(roomData.testId, {
-        //     // where: { testId: 1 },
-        //     include: [
-        //         {
-        //             model: models.question
-        //         }
-        //     ]
-        // });
-        // return { roomData, questionData };
         return roomData;
     };
 
