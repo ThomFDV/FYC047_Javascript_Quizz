@@ -24,16 +24,18 @@ class RoomController {
                 }
             ]
         });
-        const questionData = await models.question_test.findAll({
-            where: { questions: roomData.testId },
-            include: [
-                {
-                    model: models.question
-                }
-            ]
-        });
-        return { roomData, questionData };
-        // return roomData;
+
+        // console.log(`\n==============================\n${roomData.testId}\n========================\n`);
+        // const questionData = await models.question_test.findByPk(roomData.testId, {
+        //     // where: { testId: 1 },
+        //     include: [
+        //         {
+        //             model: models.question
+        //         }
+        //     ]
+        // });
+        // return { roomData, questionData };
+        return roomData;
     };
 
     async getRooms() {
