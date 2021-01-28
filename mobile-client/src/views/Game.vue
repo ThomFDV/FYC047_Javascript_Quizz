@@ -13,6 +13,9 @@
         <ion-item lines="none">
             <h1> Playing Time ! </h1>
         </ion-item>
+        <ion-item>
+            <h2>Question: {{ step + 1 }}/{{ questionsNbr }}</h2>
+        </ion-item>
 
       <ion-card>
         <ion-card-header>
@@ -42,8 +45,8 @@
 </template>
 
 <script lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
-import { defineComponent } from 'vue';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonItem, IonRadioGroup } from '@ionic/vue';
+import { defineComponent, resolveDirective } from 'vue';
 import { GameService } from '../services/game.service';
 
 // should display infos
@@ -55,7 +58,10 @@ export default defineComponent({
     IonHeader,
     IonPage,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    IonCard, 
+    IonItem, 
+    IonRadioGroup
   },
   mounted() {
       this.populateForTest();
@@ -65,10 +71,10 @@ export default defineComponent({
       GameService,
       quizQuestions: [''],
       quizAnswers: [['']],
-      selectedAnswers: [{}],
+      selectedAnswers: Array<number>(),
       questionsNbr: 0,
       step: 0,
-      radioValue: null
+      radioValue: -1
     };
   },
   methods: {
@@ -77,15 +83,35 @@ export default defineComponent({
         const answers = [['6 août 1945', '9 août 1945', '11 septembre 2001', '13 novembre 2014'], ['Rose', 'Rouge', 'Blanc', 'Jaune']];
         this.quizAnswers = answers;
         this.quizQuestions = question;
-        this.questionsNbr = question.length
+        this.questionsNbr = question.length;
     },
     // todo be sure user selected one value
     nextQuestion() {
-        if (this.radioValue) {
-            console.log(this.radioValue);
-            this.radioValue = null
-            this.step++;
+        console.log(this.radioValue);
+        if (this.radioValue == null) {
+            return;
         }
+        if (this.radioValue > -1) {
+            this.selectedAnswers.push(this.radioValue);
+
+            this.radioValue = -1;
+
+            this.step++;
+
+
+            console.log(`step: ${this.step}`);
+            console.log(`QuNbr: ${this.questionsNbr}`);
+            
+            if (this.step >= this.questionsNbr) {
+                this.redirectToResult();
+                console.log('End of test');
+                return;
+            }
+            console.log(this.selectedAnswers);
+        }
+    },
+    redirectToResult() {
+        this.$router.push('result-game');
     }
 
   }
