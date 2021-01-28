@@ -4,6 +4,7 @@ import Home from '../views/Home.vue';
 import JoinGame from '../views/JoinGame.vue';
 import InfoGame from '../views/InfoGame.vue';
 import Game from '../views/Game.vue';
+import ResultGame from '../views/ResultGame.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -29,6 +30,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/game',
     name: 'Game',
     component: Game
+  },
+  {
+    path: '/result-game',
+    name: 'ResultGame',
+    component: ResultGame
   }
 ]
 
