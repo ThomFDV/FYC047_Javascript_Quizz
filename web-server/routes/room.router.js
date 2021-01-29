@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
 
 router.post('/:uuid', async (req, res) => {
     try {
-        await RoomController.connectPlayerToRoom(req.params.uuid, req.body.name);
+        await RoomController.connectPlayerToRoom(req.params.uuid, req.body.playerId);
         return res.status(200).send();
     } catch (e) {
         console.log(`Error performing a POST on '/room/:uuid': ${e}`);

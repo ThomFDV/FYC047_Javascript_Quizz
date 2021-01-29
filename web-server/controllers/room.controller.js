@@ -59,8 +59,11 @@ class RoomController {
 
     };
 
-    async connectPlayerToRoom(id, player) {
-        const roomIndex = players.findIndex(room => room.roomId === id)
+    async connectPlayerToRoom(id, playerId) {
+        const roomFound = await models.room.findByPk(id);
+        const player = await models.user.findByPk(playerId);
+        await roomFound.addUser(player);
+        const roomIndex = players.findIndex(room => room.roomId === id);
         console.log(`%cFound: ${roomIndex} in :`, 'color: lightblue;');
         console.log(players);
         if (roomIndex !== -1) {
