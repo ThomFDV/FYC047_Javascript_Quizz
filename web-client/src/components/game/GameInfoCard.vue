@@ -18,21 +18,21 @@
       <ul class="flex flex-md-wrap justify-lg-space-around col-sm-8 col-md-6 mx-auto">
         <li
           v-for="player in players"
-          :key="player.name"
+          :key="player.id"
           class="mx-4 my-2 text-2xl text-accent align-self-center"
         >
-          {{ player.name }}{{ player.role === 'owner' ? ` (${player.role})` : ''}}
+          {{ player.username }}{{ player.isOwner ? ` (owner)` : ''}}
         </li>
       </ul>
       <div class="text-center my-4">
-        <h3 class="text-2xl">Quiz Theme: Random</h3>
+        <h3 class="text-2xl" v-if="theme">Quiz Theme: {{ this.theme }}</h3>
         <h3 class="text-2xl">Game ID: {{ this.roomId }}</h3>
         <v-btn
           color="primary"
           class="mx-auto my-4"
           raised
           elevation="4"
-          to="/game/1337-9834-3445/playing"
+          :to="`/game/${this.roomId}/playing`"
         >
 <!--          @click="redirectUsers"-->
           Start
@@ -43,8 +43,10 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable max-len */
+
 import Vue from 'vue';
-import Pusher from 'pusher-js';
+// import Pusher from 'pusher-js';
 import axios from 'axios';
 
 export default Vue.extend({
@@ -52,13 +54,34 @@ export default Vue.extend({
   data() {
     return {
       roomId: this.$route.params.gameId,
-      roomInfo: {},
-      // players: [] as { name: string; role: string }[],
-      player: `player${Math.floor(Math.random() * Math.floor(100))}`,
+      // TODO: decouper en plusieurs variables avec leurs bons types
+      roomInfo: {} as any,
+      players: [] as any[],
+      // player: '',
       playersNb: 1,
+      theme: null,
       channel: null as any,
     };
   },
+  async mounted() {
+    await this.getRoomData();
+    this.addPlayers();
+    this.theme = this.roomInfo.test.theme.name;
+  },
+  methods: {
+    async getRoomData() {
+      const room = await axios.get(`http://localhost:3000/room/${this.roomId}`);
+      this.roomInfo = room.data;
+    },
+    addPlayers() {
+      this.roomInfo.users.forEach((user: any) => {
+        // eslint-disable-next-line no-param-reassign
+        user.isOwner = this.roomInfo.owner === user.id;
+        this.players.push(user);
+      });
+    },
+  },
+  /*
   async created() {
     await this.subscribe();
     await this.getRoomInfo();
@@ -84,6 +107,8 @@ export default Vue.extend({
 
       this.channel = pusher.subscribe('my-channel');
 
+      // eslint-disable-next-line max-len
+      // eslint-disable-next-line max-len
       this.channel.bind('my-event', (data: { room: { roomId: string; players: [{ name: string; role: string }]}}) => {
         console.log('%cReady to receive messages ! Here is on of them:', 'color:#00a9f7;');
         console.log(data);
@@ -117,6 +142,7 @@ export default Vue.extend({
   },
   beforeDestroy() {
     // Retirer un player
-  },
+  }
+  */
 });
 </script>

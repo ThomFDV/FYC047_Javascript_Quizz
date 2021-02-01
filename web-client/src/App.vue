@@ -5,7 +5,7 @@
     <v-main class="mt-3">
       <router-view
         @game-finished="getAnswers"
-        :all-answers="gameAnswers"
+        :correct-answers="gameAnswers"
         :players-answers="playerAnswers"
       ></router-view>
     </v-main>

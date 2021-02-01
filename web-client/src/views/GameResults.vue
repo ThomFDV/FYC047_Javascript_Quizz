@@ -16,7 +16,7 @@ import GameResultsCard from '../components/game/GameResultsCard.vue';
 export default Vue.extend({
   name: 'GameResults',
   props: [
-    'allAnswers',
+    'correctAnswers',
     'playersAnswers',
   ],
   components: {
@@ -26,8 +26,9 @@ export default Vue.extend({
     const playersScore: Array<object> = [];
     for (let i = 0; i < this.playersAnswers.length; i += 1) {
       let score = 0;
-      for (let j = 0; j < this.allAnswers.length; j += 1) {
-        if (this.playersAnswers[i][j].answer === this.allAnswers[j][0]) {
+      for (let j = 0; j < this.correctAnswers.length; j += 1) {
+        console.log(this.playersAnswers[i][j].answer, this.correctAnswers[j]);
+        if (this.playersAnswers[i][j].answer === this.correctAnswers[j]) {
           score += 1;
         }
       }

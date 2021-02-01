@@ -42,12 +42,13 @@ export default Vue.extend({
       totalQuestionsNbr: 1,
       quizQuestions: [''],
       quizAnswers: [['']],
+      quizCorrectAnswers: [] as string[],
       selectedAnswers: [{}],
     };
   },
   methods: {
     getQuiz() {
-      return axios.get('https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple');
+      return axios.get(`http://localhost:3000/room/${this.$route.params.gameId}`);
     },
     updateAnswers(answer: { question: number; answer: number }) {
       if (this.selectedAnswers[answer.question]) {
@@ -60,40 +61,45 @@ export default Vue.extend({
       this.$router.push({
         path: `/game/${this.$route.params.gameId}/results`,
       });
-      // WARNING: selectedAnswers contains a void array at the first position
-      this.$emit('game-finished', this.quizAnswers, this.selectedAnswers);
+      // ! selectedAnswers contains a void array at the first position
+      this.$emit('game-finished', this.quizCorrectAnswers, this.selectedAnswers);
     },
-    sortQuizData(quizData: { data: { results: any } }) {
+    sortQuizData(quizData: any) {
       const questions = [];
       const allAnswers = [];
       const emptyAnswers: { question: number; answer: string }[] = [];
       let index = 0;
       // eslint-disable-next-line no-restricted-syntax
-      for (const questionData of quizData.data.results) {
+      for (const questionData of quizData.test.questions) {
         const answers = [];
-        questions.push(questionData.question);
-        answers.push(questionData.correct_answer);
-        // eslint-disable-next-line no-restricted-syntax
-        for (const answer of questionData.incorrect_answers) {
-          answers.push(answer);
-        }
+        questions.push(questionData.content);
+        answers.push(questionData.answers
+          .filter((answer: any) => answer.isCorrect === true)[0].content);
+        const wrongAnswers = [...questionData.answers
+          .filter((answer: any) => answer.isCorrect === false)];
+        wrongAnswers.forEach((answer) => answers.push(answer.content));
         allAnswers.push(answers);
+        console.log(allAnswers);
         const emptyAnswer = {
           question: index,
           answer: '',
         };
         emptyAnswers.push(emptyAnswer);
         index += 1;
+        this.quizCorrectAnswers.push(answers[0]);
       }
       this.totalQuestionsNbr = questions.length;
       this.quizQuestions = questions;
       this.quizAnswers = allAnswers;
       this.selectedAnswers = emptyAnswers;
+      console.log(this.quizQuestions);
+      console.log(this.quizAnswers);
     },
   },
   async mounted() {
     const quizData = await this.getQuiz();
-    this.sortQuizData(quizData);
+    console.log(quizData);
+    this.sortQuizData(quizData.data);
   },
 });
 </script>
