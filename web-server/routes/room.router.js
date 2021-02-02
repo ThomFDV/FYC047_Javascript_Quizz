@@ -36,10 +36,20 @@ router.post('/', async (req, res) => {
 
 router.post('/:uuid', async (req, res) => {
     try {
-        await RoomController.connectPlayerToRoom(req.params.uuid, req.body.playerId);
-        return res.status(200).send();
+        const room = await RoomController.connectPlayerToRoom(req.params.uuid, req.body.userId);
+        return res.status(200).json(room).end();
     } catch (e) {
         console.log(`Error performing a POST on '/room/:uuid': ${e}`);
+        res.status(409).json(e).end();
+    }
+});
+
+router.post('/close/:uuid', async (req, res) => {
+    try {
+        const room = await RoomController.closeRoom(req.params.uuid);
+        return res.status(200).json(room).end();
+    } catch (e) {
+        console.log(`Error performing a POST on '/room/close/:uuid': ${e}`);
         res.status(409).json(e).end();
     }
 });

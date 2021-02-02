@@ -59,10 +59,16 @@ class RoomController {
 
     };
 
-    async connectPlayerToRoom(id, playerId) {
+    async connectPlayerToRoom(id, username) {
         const roomFound = await models.room.findByPk(id);
-        const player = await models.user.findByPk(playerId);
-        await roomFound.addUser(player);
+        const player = await models.user.findOne({ where: { username }});
+        if (player.isPlaying) {
+            const playerRoom = await models.user_room.findOne({ where: { userId: player.id, roomId: roomFound.id }});
+            if (!playerRoom) throw "User playing in another room";
+            return;
+        }
+        await models.user.update({ isPlaying: true }, { where: { id: player.id } });
+        const addedPlayer = await models.user_room.create({ userId: player.id, roomId: roomFound.id, score: 0 });
         const roomIndex = players.findIndex(room => room.roomId === id);
         console.log(`%cFound: ${roomIndex} in :`, 'color: lightblue;');
         console.log(players);
@@ -75,8 +81,24 @@ class RoomController {
         await pusher.trigger("my-channel", "my-event", {
             room
         });
+        return addedPlayer;
     };
 
+    async closeRoom(roomId) {
+        const room = await models.room.findByPk(roomId, {
+            include: [
+                {
+                    model: models.user
+                }
+            ]
+        });
+
+        const playersId = []
+        for (let i = 0; i < room.users.length; i++) {
+            playersId.push(room.users[i].id);
+        }
+        return await models.user.update({ isPlaying: false }, { where: { id: playersId } });
+    }
 }
 
 module.exports = new RoomController();
