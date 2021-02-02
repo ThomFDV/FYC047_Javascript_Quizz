@@ -27,34 +27,12 @@
       </v-btn>
     </v-form>
 
-    <v-form
-      v-else
-      class="flex justify-center"
-      ref="joinFormRef"
-      v-model="createGameForm"
-      lazy-validation
-    >
-      <v-text-field
-        class="col-7 my-2"
-        v-model="gameName"
-        label="Game Name"
-        color="primary"
-        outlined
-        required
-        hide-details
-      ></v-text-field>
-
-      <v-btn
-        :disabled="!createGameForm"
-        color="primary"
-        class="ml-2 my-auto"
-        @click="createGame"
-      >
-        Create
-      </v-btn>
-    </v-form>
+    <div v-else>
+      <new-room-form @create-room="createGame"></new-room-form>
+    </div>
     <v-btn
       color="primary"
+      outlined
       @click="updateStep"
     >
       Previous
@@ -64,9 +42,14 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import axios from 'axios';
+import NewRoomForm from './NewRoomForm.vue';
 
 export default Vue.extend({
   name: 'GameFormsStepper',
+  components: {
+    NewRoomForm,
+  },
   props: {
     createForm: Boolean,
   },
@@ -86,8 +69,13 @@ export default Vue.extend({
       this.$router.push(`game/${this.gameId}`);
       return '';
     },
-    createGame() {
-      return '';
+    async createGame(roomData: {name: string; testId: number}) {
+      const createdRoom = await axios.post('http://localhost:3000/room', {
+        name: roomData.name,
+        testId: roomData.testId,
+        userId: 1,
+      });
+      await this.$router.push(`game/${createdRoom.data.roomId}`);
     },
   },
 });

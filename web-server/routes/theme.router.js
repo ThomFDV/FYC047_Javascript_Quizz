@@ -14,4 +14,13 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.get('/', async (req, res) => {
+    try {
+        const result = await ThemeController.getAllThemesAndTests();
+        return res.status(200).json(result).end();
+    } catch (err) {
+        return res.status(400).json({ err, body: req.body }).end();
+    }
+});
+
 module.exports = router;

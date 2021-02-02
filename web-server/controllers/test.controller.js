@@ -13,11 +13,7 @@ class TestController {
     }
 
     async getTest(id) {
-        return Test.findOne({
-            where: {
-                id: id
-            }
-        });
+        return Test.findByPk(id);
     }
 
     async updateTest(updates, id){

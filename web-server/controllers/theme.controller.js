@@ -10,6 +10,16 @@ class ThemeController {
             name
         });
     };
+
+    getAllThemesAndTests() {
+        return Theme.findAll({
+            include: [
+                {
+                    model: models.test
+                }
+            ]
+        })
+    }
 }
 
 module.exports = new ThemeController();
