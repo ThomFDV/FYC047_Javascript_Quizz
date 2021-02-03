@@ -1,5 +1,5 @@
 <template>
-  <form class="flex flex-column col-7">
+  <form class="flex flex-column col-7 mx-auto">
     <v-select
       class="my-2"
       v-model="themeId"
