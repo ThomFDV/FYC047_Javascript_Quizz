@@ -32,7 +32,7 @@
     </ion-content>
     <ion-footer>
       <ion-toolbar>
-        <ion-button v-on:click="joinGame" expand="block" color="primary">
+        <ion-button v-on:click="startGame" expand="block" color="primary">
           Start Game
         </ion-button>
       </ion-toolbar>
@@ -67,8 +67,11 @@ export default defineComponent({
       roomInfo: GameService.roomInfo,
     };
   },
-  mounted() {
-    console.log(this.roomInfo);
+  methods: {
+    startGame() {
+      console.log("start game");
+      this.$router.push(`/game/${this.roomId}`);
+    }
   }
 });
 </script>
