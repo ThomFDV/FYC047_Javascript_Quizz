@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         owner: {
             type: DataTypes.INTEGER,
             allowNull: false
+        },
+        isClosed: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
         }
     }, {
         tableName: 'room'

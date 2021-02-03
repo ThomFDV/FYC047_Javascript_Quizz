@@ -24,6 +24,16 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.post('/login', async (req, res) => {
+    try {
+        const user = await UserController.login(req.body.username, req.body.password);
+        return res.json(user).status(200).end();
+    } catch (e) {
+        console.log(`Error performing a POST on '/user/login': ${e}`);
+        res.status(409).json(e).end();
+    }
+});
+
 router.get('/getone/:id', async (req, res, next) => {
     try{
         const p = await UserController.getUser(req.params.id);

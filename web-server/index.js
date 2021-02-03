@@ -4,6 +4,7 @@ const models = require('./models');
 const RouteBuilder = require('./routes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const passport = require('passport');
 // const pusher = require('./config/pusher');
 
 const app = express();
@@ -16,7 +17,9 @@ const corsOptions = {
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
+app.use(passport.initialize({}));
 
+require('./config/passport')(passport);
 
 RouteBuilder.build(app);
 

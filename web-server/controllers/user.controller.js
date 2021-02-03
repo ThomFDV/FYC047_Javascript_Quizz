@@ -2,10 +2,26 @@
 
 const models = require('../models');
 const User = models.user;
+const jwt = require('jsonwebtoken');
 
 class UserController {
 
-    async addUser(firstname, lastname, username, password, email, isPlaying) {
+    async login(username, password) {
+        if (!username || !password) return;
+        let user = await User.findOne({ where: { username } });
+        if (!user) {
+            throw { msg: 'No such user found', user };
+        }
+        if (user.password === password) {
+            let payload = { id: user.id };
+            const token = jwt.sign(payload, process.env.JWT_SECRET);
+            return { user, token }
+        } else {
+            throw { msg: 'Password is incorrect' };
+        }
+    }
+
+    addUser(firstname, lastname, username, password, email, isPlaying) {
         return User.create({
             firstname,
             lastname,
