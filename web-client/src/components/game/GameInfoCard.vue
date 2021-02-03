@@ -65,13 +65,22 @@ export default Vue.extend({
   },
   async mounted() {
     await this.getRoomData();
-    this.addPlayers();
     this.theme = this.roomInfo.test.theme.name;
+    this.addPlayers();
+    if (this.players.length > 0 && this.players[0].username !== this.$route.query.username) {
+      await this.joinRoom();
+      this.$forceUpdate();
+    }
   },
   methods: {
     async getRoomData() {
       const room = await axios.get(`http://localhost:3000/room/${this.roomId}`);
       this.roomInfo = room.data;
+    },
+    async joinRoom() {
+      const room = await axios.post(`http://localhost:3000/room/join/${this.roomId}`, { username: this.$route.query.username });
+      this.roomInfo.users.push(room.data);
+      this.players.push(room.data);
     },
     addPlayers() {
       this.roomInfo.users.forEach((user: any) => {
@@ -81,6 +90,11 @@ export default Vue.extend({
       });
     },
   },
+  // watch: {
+  //   players() {
+  //     return 'toto';
+  //   },
+  // },
   /*
   async created() {
     await this.subscribe();

@@ -2,15 +2,25 @@
   <div>
     <v-form
       v-if="!createForm"
-      class="flex justify-center"
+      class="flex flex-column col-7 mx-auto"
       ref="createFormRef"
       v-model="joinGameForm"
       lazy-validation
     >
       <v-text-field
-        class="col-7 my-2"
+        class="my-2"
         v-model="gameId"
         label="Game ID"
+        color="primary"
+        outlined
+        required
+        hide-details
+      ></v-text-field>
+
+      <v-text-field
+        class="my-2"
+        v-model="userName"
+        label="Your username"
         color="primary"
         outlined
         required
@@ -20,7 +30,7 @@
       <v-btn
         :disabled="!joinGameForm"
         color="primary"
-        class="ml-2 my-auto"
+        class="my-2 mx-auto"
         @click="joinGame"
       >
         Join
@@ -57,6 +67,7 @@ export default Vue.extend({
     return {
       gameName: '',
       gameId: '',
+      userName: '',
       joinGameForm: false,
       createGameForm: false,
     };
@@ -66,7 +77,7 @@ export default Vue.extend({
       this.$emit('previous-step', 1);
     },
     joinGame() {
-      this.$router.push(`game/${this.gameId}`);
+      this.$router.push({ name: 'GameHome', params: { gameId: this.gameId }, query: { username: this.userName } });
       return '';
     },
     async createGame(roomData: {name: string; testId: number}) {
@@ -74,6 +85,7 @@ export default Vue.extend({
         name: roomData.name,
         testId: roomData.testId,
         userId: 1,
+        isClosed: false,
       });
       await this.$router.push(`game/${createdRoom.data.roomId}`);
     },

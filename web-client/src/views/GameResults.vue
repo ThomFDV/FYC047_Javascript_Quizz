@@ -22,8 +22,13 @@ export default Vue.extend({
   components: {
     GameResultsCard,
   },
+  data() {
+    return {
+      playersScore: [],
+    };
+  },
   mounted() {
-    const playersScore: Array<object> = [];
+    const playersScore: any = [];
     for (let i = 0; i < this.playersAnswers.length; i += 1) {
       let score = 0;
       for (let j = 0; j < this.correctAnswers.length; j += 1) {
@@ -39,6 +44,13 @@ export default Vue.extend({
       playersScore.push(player);
     }
     console.log(playersScore);
+    this.sortScores(playersScore);
+  },
+  methods: {
+    sortScores(scores: [{player: number; score: number}]) {
+      scores.sort((a, b) => b.score - a.score);
+      console.log(scores);
+    },
   },
 });
 </script>
