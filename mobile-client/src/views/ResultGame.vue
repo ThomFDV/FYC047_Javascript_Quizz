@@ -47,7 +47,7 @@ import { GameService } from '../services/game.service';
 // should display infos
 
 export default defineComponent({
-  name: 'Game',
+  name: 'ResultGame',
   components: {
     IonContent,
     IonHeader,
