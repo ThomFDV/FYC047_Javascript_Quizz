@@ -14,15 +14,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-// import io from 'socket.io-client';
 import TheHeader from './components/TheHeader.vue';
 import AnimatedBackground from './components/AnimatedBackground.vue';
-
-// const socket = io.connect('http://localhost:3000');
-//
-// socket.on('connect', () => {
-//   console.log('Successfully connected!');
-// });
 
 export default Vue.extend({
   name: 'App',

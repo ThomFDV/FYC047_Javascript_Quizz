@@ -16,7 +16,7 @@
         class="my-2 my-sm-0"
         @click="nextStep(true)"
       >
-        Create a Game
+        Create a Room
       </v-btn>
     </div>
     <div class="flex justify-center mt-2 mb-4">
