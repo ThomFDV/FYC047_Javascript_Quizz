@@ -16,8 +16,8 @@
           <ion-card-title>Info Game</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-            <h2>Player in the Game - {{ players.length }}</h2>
-            <h2>Quizz Theme - {{ roomInfo.theme }}</h2>
+            <h2>Player in the Game - {{ roomInfo.users.length }}</h2>
+            <h2>Quizz Theme - {{ roomInfo.test.theme.name }}</h2>
         </ion-card-content>
       </ion-card>
 
@@ -25,8 +25,8 @@
                 <ion-list-header>
                    <ion-label>Player List</ion-label>
                 </ion-list-header>
-                <ion-item v-for="player in players" :key="player" style="--border-radius: 10px">
-                    <ion-label>{{ player }}</ion-label>
+                <ion-item v-for="player in roomInfo.users" :key="player" style="--border-radius: 10px">
+                    <ion-label>{{ player.username }}</ion-label>
                 </ion-item>
             </ion-list>
     </ion-content>
@@ -63,19 +63,12 @@ export default defineComponent({
   },
   data() {
     return {
-      GameService,
       roomId: this.$route.params.roomId,
-      roomInfo: {
-          theme: 'Test Quizz'
-      },
-      players: [`player-${Math.floor(Math.random() * Math.floor(100))}`, `player-${Math.floor(Math.random() * Math.floor(100))}`]
+      roomInfo: GameService.roomInfo,
     };
   },
-  methods: {
-      //TODO chnage function to get from roomInfo
-    //   async getQuizzInfo() {
-
-    //   }
+  mounted() {
+    console.log(this.roomInfo);
   }
 });
 </script>

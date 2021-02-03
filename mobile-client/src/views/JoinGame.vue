@@ -49,7 +49,6 @@ export default defineComponent({
   },
   data() {
     return {
-      GameService,
       form: {
         roomId: ""
       }
@@ -58,15 +57,17 @@ export default defineComponent({
   methods: {
     async handleJoin() {
       if (this.form.roomId) {
-        const roomId = this.form.roomId;
-        this.GameService.getRoom(roomId).then((res) => { 
+        const roomId = this.form.roomId.trim();
+        GameService.getRoom(roomId).then((res) => { 
           if (res.data != null && res.data.id == roomId) {
+            GameService.roomInfo = res.data;
             this.$router.push(`/info-game/${roomId}`);
           }
           loadingController.dismiss();
         }).catch(async (err: any) => {
+          loadingController.dismiss();
           console.log(err);
-        })
+        });
       } else {
         const errorAlert = await alertController.create({
             header: 'Failed',

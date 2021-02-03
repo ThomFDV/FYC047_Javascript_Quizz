@@ -14,6 +14,9 @@ class ResponseError extends Error {
 }
 
 const GameService = {
+
+    roomInfo: {},
+
     getRoom: async function(roomId: string) {
         try {
             return await ApiService.get(`/room/${roomId}`);
