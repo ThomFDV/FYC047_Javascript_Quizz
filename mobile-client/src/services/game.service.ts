@@ -16,6 +16,7 @@ class ResponseError extends Error {
 const GameService = {
 
     roomInfo: {},
+    userInfo: "",
 
     getRoom: async function(roomId: string) {
         try {
@@ -28,9 +29,9 @@ const GameService = {
         }
     },
 
-    connectPlayer: async function(roomId: string, player: string) {
+    joinPlayerToRoom: async function(roomId: string, player: string) {
         try {
-            return await ApiService.post(`/room/${roomId}`, { name: player })
+            return await ApiService.post(`/room/join/${roomId}`, { username: player })
         } catch(error) {
             throw new ResponseError(
                 error.status,

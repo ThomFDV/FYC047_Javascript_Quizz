@@ -17,7 +17,11 @@
         </ion-card-header>
         <ion-card-content>
           <form @submit.prevent="handleJoin">
-            <ion-item style="--border-radius: 10px">   
+            <ion-item style="--border-radius: 10px 10px 0px 0px">   
+              <ion-label position="floating">Username</ion-label>         
+              <ion-input type="text" v-model="form.username" id="roomId" required></ion-input>
+            </ion-item>
+            <ion-item style="--border-radius: 0px 0px 10px 10px ">   
               <ion-label position="floating">Enter GameID</ion-label>         
               <ion-input type="text" v-model="form.roomId" id="roomId" required></ion-input>
             </ion-item>
@@ -50,23 +54,32 @@ export default defineComponent({
   data() {
     return {
       form: {
+        username: "",
         roomId: ""
       }
     };
   },
   methods: {
     async handleJoin() {
-      if (this.form.roomId) {
+      if (this.form.roomId && this.form.username) {
         const roomId = this.form.roomId.trim();
         GameService.getRoom(roomId).then((res) => { 
           if (res.data != null && res.data.id == roomId) {
             GameService.roomInfo = res.data;
-            this.$router.push(`/info-game/${roomId}`);
+            this.checkUser(this.form.username, roomId);
           }
           loadingController.dismiss();
         }).catch(async (err: any) => {
           loadingController.dismiss();
           console.log(err);
+          const errorAlert = await alertController.create({
+            header: 'Failed',
+            subHeader: 'Get Room Fail',
+            message: 'Please enter a valid GameID',
+            buttons: ['OK']
+          });
+
+          await errorAlert.present();
         });
       } else {
         const errorAlert = await alertController.create({
@@ -76,7 +89,42 @@ export default defineComponent({
             buttons: ['OK']
           });
 
-        await errorAlert.present;
+        await errorAlert.present();
+      }
+    },
+
+    async checkUser(username: string, roomId: string) {
+      if (username) {
+        GameService.joinPlayerToRoom(roomId, username).then((res) => {
+          console.log(res);
+          
+          if (res.data != null) {
+            GameService.userInfo = username;
+            this.$router.push(`/info-game/${roomId}`);
+          }
+          loadingController.dismiss();
+        }).catch(async (err: any) => {
+          loadingController.dismiss();
+          console.log(err);
+          
+          const errorAlert = await alertController.create({
+            header: 'Failed',
+            subHeader: 'Get User Fail',
+            message: 'Please enter a valid Username',
+            buttons: ['OK']
+          });
+
+          await errorAlert.present();
+        });
+      } else {
+        const errorAlert = await alertController.create({
+            header: 'Failed',
+            subHeader: 'Get User Fail',
+            message: 'Please enter a Username',
+            buttons: ['OK']
+          });
+
+        await errorAlert.present();
       }
     }
   }
