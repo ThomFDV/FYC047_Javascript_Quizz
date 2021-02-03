@@ -59,6 +59,10 @@ export default defineComponent({
       }
     };
   },
+  mounted() {
+    this.form.username = GameService.userInfo;
+    this.form.roomId = "";
+  },
   methods: {
     async handleJoin() {
       if (this.form.roomId && this.form.username) {
