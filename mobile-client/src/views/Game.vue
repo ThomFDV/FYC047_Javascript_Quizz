@@ -64,14 +64,15 @@ export default defineComponent({
     IonRadioGroup
   },
   mounted() {
-      this.populateForTest();
+      //this.populateForTest();
+      this.parseRoomInfo(GameService.roomInfo);
   },
   data() {
     return {
-      GameService,
       quizQuestions: [''],
       quizAnswers: [['']],
       selectedAnswers: Array<number>(),
+      quizCorrectAnswers: Array<string>(),
       questionsNbr: 0,
       step: 0,
       radioValue: -1
@@ -84,6 +85,37 @@ export default defineComponent({
         this.quizAnswers = answers;
         this.quizQuestions = question;
         this.questionsNbr = question.length;
+    },
+    parseRoomInfo(quizData: any) {
+      const questions = [];
+      const allAnswers = [];
+      const emptyAnswers: { question: number; answer: string }[] = [];
+      let index = 0;
+      // eslint-disable-next-line no-restricted-syntax
+      for (const questionData of quizData.test.questions) {
+        const answers = [];
+        questions.push(questionData.content);
+        answers.push(questionData.answers
+          .filter((answer: any) => answer.isCorrect === true)[0].content);
+        const wrongAnswers = [...questionData.answers
+          .filter((answer: any) => answer.isCorrect === false)];
+        wrongAnswers.forEach((answer) => answers.push(answer.content));
+        allAnswers.push(answers);
+        console.log(allAnswers);
+        const emptyAnswer = {
+          question: index,
+          answer: '',
+        };
+        emptyAnswers.push(emptyAnswer);
+        index += 1;
+        this.quizCorrectAnswers.push(answers[0]);
+      }
+      this.questionsNbr = questions.length;
+      this.quizQuestions = questions;
+      this.quizAnswers = allAnswers;
+      //this.selectedAnswers = emptyAnswers;
+      console.log(this.quizQuestions);
+      console.log(this.quizAnswers);
     },
     // todo be sure user selected one value
     nextQuestion() {
@@ -111,7 +143,7 @@ export default defineComponent({
         }
     },
     redirectToResult() {
-        this.$router.push('result-game');
+        this.$router.push('/result-game');
     }
 
   }
