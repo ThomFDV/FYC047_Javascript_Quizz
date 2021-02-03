@@ -41,18 +41,28 @@ class RoomController {
         return models.room.findAll();
     };
 
-    async addRoom(name, userId, testId) {
-        const createdRoom = await models.room.create({
-            name,
-            owner: userId,
-            testId
-        });
-        if (!createdRoom) return;
-
-        const player = await models.user.findByPk(userId);
+    async addRoom(name, username, testId) {
+        console.log("%c\n==========\n", "color: lightblue;");
+        const player = await models.user.findOne({ where: { username }});
+        console.log("%c\n==========\n", "color: lightblue;");
+        console.log(player);
+        console.log("%c\n==========\n", "color: lightblue;");
         if (!player) return;
 
+        const createdRoom = await models.room.create({
+            name,
+            owner: player.id,
+            testId
+        });
+        console.log("%c\n==========\n", "color: lightblue;");
+        console.log(createdRoom);
+        console.log("%c\n==========\n", "color: lightblue;");
+        if (!createdRoom) return;
+
         const updatePlayer = await models.user.update({ isPlaying: true }, { where: { id: player.id } });
+        console.log("%c\n==========\n", "color: lightblue;");
+        console.log(updatePlayer);
+        console.log("%c\n==========\n", "color: lightblue;");
         if (!updatePlayer) return;
 
         return models.user_room.create({ userId: player.id, roomId: createdRoom.id, score: 0 });

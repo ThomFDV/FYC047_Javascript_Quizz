@@ -9,8 +9,7 @@
     </div>
     <v-spacer></v-spacer>
     <div>
-      <v-btn v-if="!isUserAuthenticated" color="secondary" to="/register">Login</v-btn>
-      <v-btn v-else color="secondary" @click="disconnect()">Login</v-btn>
+      <v-btn color="secondary" to="/register">Register</v-btn>
     </div>
   </v-app-bar>
 </template>
@@ -21,32 +20,6 @@ export default Vue.extend({
   name: 'TheHeader',
   props: {
     applicationName: String,
-  },
-  data() {
-    return {
-      isUserAuthenticated: false,
-    };
-  },
-  methods: {
-    disconnect() {
-      // TODO
-      // TODO
-      // TODO
-      // TODO
-      // TODO
-      // TODO
-      return '';
-    },
-  },
-  mounted() {
-    // TODO
-    // TODO
-    // TODO
-    // TODO
-    // TODO
-    // TODO
-    // TODO
-    // TODO
   },
 });
 </script>

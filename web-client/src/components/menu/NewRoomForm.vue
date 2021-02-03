@@ -38,6 +38,16 @@
       hide-details
     ></v-text-field>
 
+    <v-text-field
+      class="my-2"
+      v-model="userName"
+      label="Your username"
+      color="primary"
+      outlined
+      required
+      hide-details
+    ></v-text-field>
+
     <v-btn
       :disabled="!themeId && !testId && !roomName"
       color="primary"
@@ -60,6 +70,7 @@ export default Vue.extend({
       testId: null,
       themeId: null,
       roomName: null,
+      userName: null,
       themesContent: [] as any[],
       tests: [],
     };
@@ -79,6 +90,7 @@ export default Vue.extend({
       const roomData = {
         name: this.roomName,
         testId: this.testId,
+        username: this.userName,
       };
       this.$emit('create-room', roomData);
     },

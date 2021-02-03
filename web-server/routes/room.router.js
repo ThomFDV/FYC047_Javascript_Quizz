@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const room = await RoomController.addRoom(req.body.name, req.body.userId, req.body.testId);
+        const room = await RoomController.addRoom(req.body.name, req.body.username, req.body.testId);
         return res.status(201).json(room).end();
     } catch (e) {
         res.status(409).json(e).end();
