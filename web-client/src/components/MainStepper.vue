@@ -28,10 +28,7 @@
       </v-stepper-content>
 
       <v-stepper-content step="2">
-        <slot
-          :change-step="updateStep"
-          name="secondStep"
-        >
+        <slot :change-step="updateStep" name="secondStep">
           Please add content in the slot from the parent component.
         </slot>
       </v-stepper-content>
