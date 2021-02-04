@@ -20,7 +20,7 @@
       </v-btn>
     </div>
     <div class="flex justify-center mt-2 mb-4">
-      <v-btn color="primary" @click="isRulesHidden = !isRulesHidden">
+      <v-btn color="secondary" outlined @click="isRulesHidden = !isRulesHidden">
         See the Rules
       </v-btn>
     </div>
