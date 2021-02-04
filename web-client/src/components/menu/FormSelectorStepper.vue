@@ -9,7 +9,7 @@
         class="my-2 my-sm-0"
         @click="nextStep(false)"
       >
-        Join a Game
+        Join a Room
       </v-btn>
       <v-btn
         color="primary"
