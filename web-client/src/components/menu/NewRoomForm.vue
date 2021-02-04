@@ -80,11 +80,8 @@ export default Vue.extend({
       return axios.get('http://localhost:3000/theme');
     },
     displayTests() {
-      console.log(this.themeId);
       const themeSelected: any = this.themesContent.filter((theme) => theme.id === this.themeId)[0];
-      console.log(themeSelected);
       this.tests = themeSelected.tests;
-      console.log(this.tests);
     },
     createGame() {
       const roomData = {
@@ -97,7 +94,6 @@ export default Vue.extend({
   },
   async mounted() {
     const res = await this.getThemesAndTests();
-    console.log(res.data);
     this.themesContent = [...res.data];
   },
 });
