@@ -6,7 +6,7 @@
       dark
     >
       <v-card-title class="flex-column">
-        <h2 class="text-3xl mx-auto my-2">Players in the game - {{ playersNb }}</h2>
+        <h2 class="text-3xl mx-auto my-2">Players in this room - {{ playersNb }}</h2>
         <v-progress-linear
           indeterminate
           color="info"
@@ -34,7 +34,6 @@
           elevation="4"
           :to="`/game/${this.roomId}/playing`"
         >
-<!--          @click="redirectUsers"-->
           Start
         </v-btn>
       </div>
@@ -43,10 +42,7 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable max-len */
-
 import Vue from 'vue';
-// import Pusher from 'pusher-js';
 import axios from 'axios';
 
 export default Vue.extend({
@@ -54,13 +50,10 @@ export default Vue.extend({
   data() {
     return {
       roomId: this.$route.params.gameId,
-      // TODO: decouper en plusieurs variables avec leurs bons types
       roomInfo: {} as any,
       players: [] as any[],
-      // player: '',
       playersNb: 1,
       theme: null,
-      channel: null as any,
     };
   },
   async mounted() {
@@ -69,7 +62,6 @@ export default Vue.extend({
     this.addPlayers();
     if (this.players.length > 0 && this.players[0].username !== this.$route.query.username) {
       await this.joinRoom();
-      this.$forceUpdate();
     }
   },
   methods: {
@@ -90,73 +82,5 @@ export default Vue.extend({
       });
     },
   },
-  // watch: {
-  //   players() {
-  //     return 'toto';
-  //   },
-  // },
-  /*
-  async created() {
-    await this.subscribe();
-    await this.getRoomInfo();
-    await this.connectPlayer();
-    this.isGameStarted();
-  },
-  computed: {
-    players() {
-      const roomInfo = {
-        uuid: this.roomId,
-        player: this.player,
-      };
-      this.$store.commit('findOrCreateRoomPlayers', roomInfo);
-      return this.$store.state.roomsPlayers[this.$store.state.roomIndex].players;
-    },
-  },
-  methods: {
-    async subscribe() {
-      Pusher.logToConsole = true;
-      const pusher = new Pusher('18a55f14dc5416afff3d', {
-        cluster: 'eu',
-      });
-
-      this.channel = pusher.subscribe('my-channel');
-
-      // eslint-disable-next-line max-len
-      // eslint-disable-next-line max-len
-      this.channel.bind('my-event', (data: { room: { roomId: string; players: [{ name: string; role: string }]}}) => {
-        console.log('%cReady to receive messages ! Here is on of them:', 'color:#00a9f7;');
-        console.log(data);
-        console.log('%cEnding there', 'color:#00a9f7;');
-        this.$store.commit('addPlayer', data.room);
-        console.log(this.players);
-      });
-    },
-    async getRoomInfo() {
-      const room = await axios.get(`http://localhost:3000/room/${this.roomId}`);
-      this.roomInfo = room.data;
-    },
-    async connectPlayer() {
-      await axios.post(`http://localhost:3000/room/${this.roomId}`,
-        {
-          name: this.player,
-        });
-    },
-    redirectUsers() {
-      this.$store.commit('startRoom', { roomId: this.roomId });
-      console.log('%cStarted rooms:', 'colors: lightpink;');
-      console.log(this.$store.state.startedRooms);
-      this.$forceUpdate();
-      // this.$emit('play-game', this.roomId);
-    },
-    isGameStarted() {
-      if (this.$store.state.startedRooms.includes(this.roomId)) {
-        this.$router.push('/game/1337-9834-3445/playing');
-      }
-    },
-  },
-  beforeDestroy() {
-    // Retirer un player
-  }
-  */
 });
 </script>

@@ -4,7 +4,7 @@
       Waiting for the host to launch the game
     </h1>
     <div class="flex flex-column flex-sm-row justify-space-around game-height">
-      <game-info-card @play-game="goToPlayingGame"></game-info-card>
+      <game-info-card></game-info-card>
     </div>
   </section>
 </template>
@@ -16,14 +16,6 @@ import GameInfoCard from '../components/game/GameInfoCard.vue';
 export default Vue.extend({
   name: 'GameHome',
   components: { GameInfoCard },
-  data() {
-    return { };
-  },
-  methods: {
-    goToPlayingGame(roomId: string) {
-      if (this.$route.params.gameId === roomId) this.$router.push('/game/1337-9834-3445/playing');
-    },
-  },
 });
 </script>
 
