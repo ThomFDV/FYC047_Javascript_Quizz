@@ -61,7 +61,6 @@ export default Vue.extend({
       this.$router.push({
         path: `/game/${this.$route.params.gameId}/results`,
       });
-      // ! selectedAnswers contains a void array at the first position
       this.$emit('game-finished', this.quizCorrectAnswers, this.selectedAnswers);
     },
     sortQuizData(quizData: any) {
@@ -79,7 +78,6 @@ export default Vue.extend({
           .filter((answer: any) => answer.isCorrect === false)];
         wrongAnswers.forEach((answer) => answers.push(answer.content));
         allAnswers.push(answers);
-        console.log(allAnswers);
         const emptyAnswer = {
           question: index,
           answer: '',
@@ -92,13 +90,10 @@ export default Vue.extend({
       this.quizQuestions = questions;
       this.quizAnswers = allAnswers;
       this.selectedAnswers = emptyAnswers;
-      console.log(this.quizQuestions);
-      console.log(this.quizAnswers);
     },
   },
   async mounted() {
     const quizData = await this.getQuiz();
-    console.log(quizData);
     this.sortQuizData(quizData.data);
   },
 });

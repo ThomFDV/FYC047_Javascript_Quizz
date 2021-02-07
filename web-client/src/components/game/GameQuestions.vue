@@ -89,7 +89,7 @@ export default Vue.extend({
   methods: {
     progress() {
       setTimeout(() => {
-        this.progressBarValue += 20;
+        this.progressBarValue += 10;
       }, 1000);
     },
   },
