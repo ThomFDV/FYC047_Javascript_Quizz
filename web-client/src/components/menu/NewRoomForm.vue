@@ -89,6 +89,7 @@ export default Vue.extend({
         testId: this.testId,
         username: this.userName,
       };
+      console.log(roomData);
       this.$emit('create-room', roomData);
     },
   },

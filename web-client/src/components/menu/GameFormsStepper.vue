@@ -83,8 +83,8 @@ export default Vue.extend({
     async createGame(roomData: {name: string; testId: number; username: string}) {
       const createdRoom = await axios.post('http://localhost:3000/room', {
         name: roomData.name,
-        testId: roomData.testId,
         username: roomData.username,
+        testId: roomData.testId,
       });
       await this.$router.push(`game/${createdRoom.data.roomId}`);
     },
