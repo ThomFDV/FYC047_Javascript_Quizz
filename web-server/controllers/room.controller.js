@@ -94,8 +94,12 @@ class RoomController {
         return addedPlayer;
     };
 
-    async closeRoom(roomId) {
-        const room = await models.room.findByPk(roomId, {
+    async closeRoom(roomId, username, score) {
+        // const player = await models.user.findOne({ where: { username }});
+
+        console.log("\n\n\n");
+
+        const playersRoom = await models.room.findByPk(roomId, {
             include: [
                 {
                     model: models.user
@@ -103,11 +107,22 @@ class RoomController {
             ]
         });
 
-        const playersId = []
-        for (let i = 0; i < room.users.length; i++) {
-            playersId.push(room.users[i].id);
+        let playerToBeUpdated;
+        const scores = [];
+
+        for (let i = 0; i < playersRoom.users.length; i++) {
+            if (playersRoom.users[i].username === username) {
+                playerToBeUpdated = playersRoom.users[i];
+                scores.push({ playerUsername: username, score });
+            } else {
+                scores.push({ playerUsername: playersRoom.users[i].username, score: playersRoom.users[i].user_room.score });
+            }
         }
-        return await models.user.update({ isPlaying: false }, { where: { id: playersId } });
+
+        await playerToBeUpdated.update({ isPlaying: false });
+        await playerToBeUpdated.user_room.update({ score })
+
+        return { playersRoom, scores };
     }
 }
 

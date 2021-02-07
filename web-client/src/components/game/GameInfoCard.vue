@@ -32,7 +32,7 @@
           class="mx-auto my-4"
           raised
           elevation="4"
-          :to="`/game/${this.roomId}/playing`"
+          @click="playGame()"
         >
           Start
         </v-btn>
@@ -80,6 +80,9 @@ export default Vue.extend({
         user.isOwner = this.roomInfo.owner === user.id;
         this.players.push(user);
       });
+    },
+    playGame() {
+      this.$router.push({ name: 'PlayingGame', params: { gameId: this.roomId }, query: { username: this.$route.query.username } });
     },
   },
 });

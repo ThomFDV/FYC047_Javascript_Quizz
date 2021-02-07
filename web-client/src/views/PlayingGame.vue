@@ -58,9 +58,7 @@ export default Vue.extend({
       }
     },
     gameEnd() {
-      this.$router.push({
-        path: `/game/${this.$route.params.gameId}/results`,
-      });
+      this.$router.push({ name: 'GameResults', params: { gameId: this.$route.params.gameId }, query: { username: this.$route.query.username } });
       this.$emit('game-finished', this.quizCorrectAnswers, this.selectedAnswers);
     },
     sortQuizData(quizData: any) {

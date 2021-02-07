@@ -68,6 +68,12 @@ import Vue from 'vue';
 
 export default Vue.extend({
   name: 'GameResultsCard',
+  props: {
+    playersScore: {
+      type: Array,
+      required: true,
+    },
+  },
 });
 </script>
 

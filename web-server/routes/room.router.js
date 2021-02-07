@@ -46,7 +46,7 @@ router.post('/join/:uuid', async (req, res) => {
 
 router.post('/close/:uuid', async (req, res) => {
     try {
-        const room = await RoomController.closeRoom(req.params.uuid);
+        const room = await RoomController.closeRoom(req.params.uuid, req.body.username, req.body.score);
         return res.status(200).json(room).end();
     } catch (e) {
         console.log(`Error performing a POST on '/room/close/:uuid': ${e}`);
