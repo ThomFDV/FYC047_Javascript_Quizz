@@ -9,14 +9,15 @@ const passport = require('passport');
 
 const app = express();
 
-const corsOptions = {
-    origin: 'http://localhost:8100',
-    optionsSuccessStatus: 200 // For legacy browser support
-}
+// const corsOptions = {
+//     origin: 'http://localhost:8100',
+//     optionsSuccessStatus: 200 // For legacy browser support
+// }
 
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors());
 app.use(passport.initialize({}));
 
 require('./config/passport')(passport);

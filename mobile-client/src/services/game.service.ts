@@ -13,10 +13,23 @@ class ResponseError extends Error {
     }
 }
 
+class Answer {
+    question: number;
+    answer: string;
+    constructor(question: number, answer: string) {
+        this.question = question;
+        this.answer = answer;
+    }
+}
+
 const GameService = {
 
     roomInfo: {},
     userInfo: "",
+    gameInfo: {
+        selectedAnswers: Array<Answer>(),
+        correctAnswers: Array<string>()
+    },
 
     getRoom: async function(roomId: string) {
         try {
@@ -56,4 +69,4 @@ const GameService = {
     }
 }
 
-export { GameService, ResponseError };
+export { GameService, ResponseError, Answer };

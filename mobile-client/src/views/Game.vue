@@ -27,7 +27,7 @@
             <ion-radio-group name="answers" :value="radioValue" v-on:ionChange="radioValue = $event.target.value">
                 <ion-item v-for="(answer, index) in quizAnswers[step]" :key="index">
                     <ion-label>{{ answer }}</ion-label>
-                    <ion-radio :value="index"></ion-radio>
+                    <ion-radio :value="answer"></ion-radio>
                 </ion-item>
             </ion-radio-group>
             
@@ -46,8 +46,8 @@
 
 <script lang="ts">
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonItem, IonRadioGroup } from '@ionic/vue';
-import { defineComponent, resolveDirective } from 'vue';
-import { GameService } from '../services/game.service';
+import { defineComponent } from 'vue';
+import { Answer, GameService } from '../services/game.service';
 
 // should display infos
 
@@ -64,18 +64,17 @@ export default defineComponent({
     IonRadioGroup
   },
   mounted() {
-      //this.populateForTest();
       this.parseRoomInfo(GameService.roomInfo);
   },
   data() {
     return {
       quizQuestions: [''],
       quizAnswers: [['']],
-      selectedAnswers: Array<number>(),
+      selectedAnswers: Array<Answer>(),
       quizCorrectAnswers: Array<string>(),
       questionsNbr: 0,
       step: 0,
-      radioValue: -1
+      radioValue: ""
     };
   },
   methods: {
@@ -101,7 +100,7 @@ export default defineComponent({
           .filter((answer: any) => answer.isCorrect === false)];
         wrongAnswers.forEach((answer) => answers.push(answer.content));
         allAnswers.push(answers);
-        console.log(allAnswers);
+        //console.log(allAnswers);
         const emptyAnswer = {
           question: index,
           answer: '',
@@ -113,36 +112,42 @@ export default defineComponent({
       this.questionsNbr = questions.length;
       this.quizQuestions = questions;
       this.quizAnswers = allAnswers;
-      //this.selectedAnswers = emptyAnswers;
-      console.log(this.quizQuestions);
-      console.log(this.quizAnswers);
+      this.selectedAnswers = emptyAnswers;
+
+      // console.log(this.quizQuestions);
+      // console.log(this.quizAnswers);
+      // console.log(this.selectedAnswers);
+      // console.log(this.quizCorrectAnswers);
     },
     // todo be sure user selected one value
     nextQuestion() {
-        console.log(this.radioValue);
-        if (this.radioValue == null) {
-            return;
-        }
-        if (this.radioValue > -1) {
-            this.selectedAnswers.push(this.radioValue);
+        // console.log(this.radioValue);
+        if (this.radioValue != "") {
+            const answer: Answer = { question: this.step, answer: this.radioValue}
 
-            this.radioValue = -1;
+          if (this.selectedAnswers[answer.question]) {
+            this.selectedAnswers[answer.question] = answer;
+          } else {
+            this.selectedAnswers.push(answer);
+          }
+            this.radioValue = "";
 
             this.step++;
 
-
-            console.log(`step: ${this.step}`);
-            console.log(`QuNbr: ${this.questionsNbr}`);
+            //console.log(`step: ${this.step}`);
+            // console.log(`QuNbr: ${this.questionsNbr}`);
             
             if (this.step >= this.questionsNbr) {
                 this.redirectToResult();
                 console.log('End of test');
                 return;
             }
-            console.log(this.selectedAnswers);
+            // console.log(this.selectedAnswers);
         }
     },
     redirectToResult() {
+        GameService.gameInfo.selectedAnswers = this.selectedAnswers;
+        GameService.gameInfo.correctAnswers = this.quizCorrectAnswers;
         this.$router.push('/result-game');
     }
 
